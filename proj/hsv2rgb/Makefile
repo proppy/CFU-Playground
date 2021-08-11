@@ -41,4 +41,5 @@ DEFINES += INCLUDE_MODEL_PDTI8
 # Uncomment to include all TFLM examples (pdti8, micro_speech, magic_wand)
 #DEFINES += INCLUDE_ALL_TFLM_EXAMPLES
 
+TARGET=kosagi_fomu
 include ../proj.mk

@@ -21,6 +21,7 @@
 
 #include "cfu.h"
 #include "menu.h"
+#include "rgb.h"
 
 namespace {
 
@@ -51,11 +52,28 @@ void do_exercise_cfu_op0(void) {
   printf("Performed %d comparisons", count);
 }
 
+void do_rgb_test(void) {
+  rgb_init();
+  const uint32_t s = 255;
+  const uint32_t v = 255;
+  const uint32_t hstep = 1;
+  for (uint32_t h = 0; h < 256 * 6; h+=hstep) {
+    uint32_t hsv = h << 16 | s << 8 | v;
+    uint32_t cfu_rgb = cfu_op0(0, hsv, 0);
+    uint32_t r = cfu_rgb >> 16 & 0xff;
+    uint32_t g = cfu_rgb >> 8 & 0xff;
+    uint32_t b = cfu_rgb & 0xff;
+    rgb_set(uint8_t(r), uint8_t(g), uint8_t(b));
+    printf("h:%08lx => r:%08lx g:%08lx b:%08lx\n", h, r, g, b);
+  }
+}
+
 struct Menu MENU = {
     "Project Menu",
     "project",
     {
         MENU_ITEM('0', "exercise cfu op0", do_exercise_cfu_op0),
+        MENU_ITEM('1', "rgb test", do_rgb_test),
         MENU_ITEM('h', "say Hello", do_hello_world),
         MENU_END,
     },
